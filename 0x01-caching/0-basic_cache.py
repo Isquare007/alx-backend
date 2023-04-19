@@ -8,7 +8,7 @@ class BasicCache(BaseCaching):
     BaseCaching and is a caching system"""
 
     def put(self, key, item):
-        if item and key is not None:
+        if item and key:
             self.cache_data[key] = item
 
     def get(self, key):
