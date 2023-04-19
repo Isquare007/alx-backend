@@ -12,13 +12,13 @@ class FIFOCache(BaseCaching):
     def put(self, key, item):
         """ Add an item in the cache with FIFO algorithm
         """
-        if item and key:
+        if key and item:
             self.cache_data[key] = item
 
-            if len(self.cache_data) > self.MAX_ITEMS:
-                discard = next(iter(self.cache_data.keys()))
-                self.cache_data.pop(discard)
-                print("DISCARD: {}".format(discard[0]))
+        if len(self.cache_data) > self.MAX_ITEMS:
+            keys_list = list(self.cache_data.keys())
+            del self.cache_data[keys_list[0]]
+            print(f'DISCARD: {keys_list[0]}')
 
     def get(self, key):
         """get value of key passed"""
