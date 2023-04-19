@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
-"""FIFIO Cache Module"""
+"""FIFO caching"""
 from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    """FIFO"""
-    def __init__(self) -> None:
-        """initialize"""
+    """define class for FIFO caching
+    Args:
+        BaseCaching (class): parent class
+    """
+
+    def __init__(self):
         super().__init__()
 
     def put(self, key, item):
-        """ Add an item in the cache with FIFO algorithm
+        """store cache data
+        Args:
+            key (_type_): key
+            item (_type_): value
         """
         if key and item:
             self.cache_data[key] = item
@@ -21,5 +27,10 @@ class FIFOCache(BaseCaching):
             print(f'DISCARD: {keys_list[0]}')
 
     def get(self, key):
-        """get value of key passed"""
+        """get value associated with key
+        Args:
+            key (_type_): cache_data key
+        Returns:
+            _type_: None if unsuccessful else data at key
+        """
         return self.cache_data.get(key)
