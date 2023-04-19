@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """FIFIO Cache Module"""
-BaseCaching = __import__('basic_caching').BaseCaching
+from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
@@ -20,9 +20,8 @@ class FIFOCache(BaseCaching):
         return
 
     def get(self, key):
-        if key not in self.cache_data or key is None:
-            return None
-        return self.cache_data[key]
+        """get value of key passed"""
+        return self.cache_data.get(key)
 
 
 my_cache = FIFOCache()
