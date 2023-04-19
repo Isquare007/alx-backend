@@ -4,6 +4,7 @@ from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
+    """FIFO"""
     def __init__(self) -> None:
         """initialize"""
         super().__init__()
@@ -11,7 +12,7 @@ class FIFOCache(BaseCaching):
     def put(self, key, item):
         """ Add an item in the cache with FIFO algorithm
         """
-        if item and key is not None:
+        if item and key:
             self.cache_data[key] = item
 
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
