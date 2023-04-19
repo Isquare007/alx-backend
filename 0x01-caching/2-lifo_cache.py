@@ -9,6 +9,7 @@ class LIFOCache(BaseCaching):
     """
     Inherits from BaseCaching
     """
+
     def __init__(self):
         """
         Initializing LIFO caching
