@@ -9,6 +9,7 @@ class MRUCache(BaseCaching):
     """"
     inherits from BaseCaching
     """
+
     def __init__(self):
         """
         Initializing MRUCache
