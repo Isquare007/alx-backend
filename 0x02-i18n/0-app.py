@@ -11,6 +11,7 @@ def welcome():
     message = "Welcome to Holberton", "Hello World"
     return render_template('0-index.html', title=message)
 
+
 if __name__ == "__main__":
     """ Main Function """
     app.run()
