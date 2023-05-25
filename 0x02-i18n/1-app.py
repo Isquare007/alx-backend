@@ -8,7 +8,7 @@ app = Flask(__name__)
 class Config(object):
     """Config class for flask app
     """
-    DEBUG = True
+    
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
@@ -25,7 +25,7 @@ def index():
     Returns:
         html: homepage
     """
-    return render_template('2-index.html')
+    return render_template('1-index.html')
 
 
 if __name__ == "__main__":
