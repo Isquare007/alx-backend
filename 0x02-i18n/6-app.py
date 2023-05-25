@@ -11,45 +11,44 @@ users = {
 }
 
 
-class Config:
+app = Flask(__name__)
+
+
+class Config(object):
     """Config class for flask app
     """
-    DEBUG = True
+
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
-app = Flask(__name__)
 app.config.from_object(Config)
 babel = Babel(app)
 
 
 @app.route('/')
-def index():
-    """view function for root route
-    Returns:
-        html: homepage
+def hello_world():
     """
-    return render_template('6-index.html')
+    parametersize
+    """
+    return render_template("5-index.html")
 
 
-# @babel.localeselector
+@babel.localeselector
 def get_locale():
     """get best language match
     Returns:
         str: best match
     """
-    locale = request.args.get("locale")
+    locale = request.args.get('locale', '')
     if locale and locale in app.config['LANGUAGES']:
         return locale
 
-    if g.user:
-        locale = g.user.get("locale")
-        if locale and locale in app.config['LANGUAGES']:
-            return locale
+    if g.user and g.user['locale'] in app.config['LANGUAGES']:
+        return g.user.get('locale')
 
-    locale = request.headers.get('locale')
+    locale = request.header.get('locale', '')
     if locale and locale in app.config['LANGUAGES']:
         return locale
 
@@ -57,28 +56,20 @@ def get_locale():
 
 
 def get_user():
-    """get user from mock database
-    Returns:
-        dict: user dictionary or None if unsuccessful
-    """
+    """gets user login"""
     user_id = request.args.get('login_as')
-    if not user_id:
-        return None
-    return users.get(int(user_id))
+
+    if user_id:
+        return users.get(int(user_id))
+    return None
 
 
 @app.before_request
 def before_request():
-    """set user from get_user as a global
-       on flask.g.user
-    """
+    """runs before any other function"""
+
     g.user = get_user()
 
 
-# --- uncomment this line
-babel.init_app(app, locale_selector=get_locale)
-# --- and comment the @babel.localeselector decorator above if
-# you get this error:
-# AttributeError: 'Babel' object has no attribute 'localeselector'
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5001)
