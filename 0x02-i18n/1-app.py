@@ -5,7 +5,6 @@ from flask_babel import Babel
 
 
 class Config(object):
-    DEBUG = True
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
@@ -23,5 +22,4 @@ def index():
 
 
 if __name__ == "__main__":
-    """ Main Function """
     app.run(host="0.0.0.0", port=5000)
