@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env python3
 """
 a simple flask app
@@ -27,7 +25,7 @@ babel = Babel(app)
 @app.route('/')
 def hello_world():
     """
-    parametersize
+    parametersize of hello to the world
     """
     title = _("home_title")
     header = _("home_header")
@@ -41,7 +39,6 @@ def get_locale():
         str: best match
     """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
-
 
 
 if __name__ == '__main__':
