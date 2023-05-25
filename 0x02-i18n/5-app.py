@@ -32,7 +32,7 @@ def hello_world():
     """
     parametersize
     """
-    return render_template("4-index.html")
+    return render_template("5-index.html")
 
 
 @babel.localeselector
@@ -50,15 +50,15 @@ def get_user():
     """gets user login"""
     user_id = request.args.get('login_as')
     
-    if user_id and user_id in users:
-        return user_id.get(int(user_id))
+    if user_id:
+        return users.get(int(user_id))
     return None
 
 @app.before_request
 def before_request():
-    user = get_user()
-    if user:
-        setattr(g, 'user', user)
+    
+    g.user = get_user()
+    
     
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
