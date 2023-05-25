@@ -24,9 +24,7 @@ def hello_world():
     """
     parametersize
     """
-    title = _("home_title")
-    header = _("home_header")
-    return render_template("3-index.html", title=title, header=header)
+    return render_template("4-index.html")
 
 
 @babel.localeselector
@@ -35,6 +33,9 @@ def get_locale():
     Returns:
         str: best match
     """
+    locale = request.args.get('locale', '')
+    if locale and locale in app.config['LANGUAGES']:
+        return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
