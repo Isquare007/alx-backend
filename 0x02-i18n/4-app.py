@@ -3,47 +3,40 @@
 from flask import Flask, render_template, request
 from flask_babel import Babel
 
+app = Flask(__name__)
 
-class Config:
+
+class Config(object):
     """Config class for flask app
     """
-    DEBUG = True
+
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
-app = Flask(__name__)
 app.config.from_object(Config)
 babel = Babel(app)
 
 
 @app.route('/')
-def index():
-    """view function for root route
-    Returns:
-        html: homepage
+def hello_world():
     """
-    return render_template('3-index.html')
+    parametersize
+    """
+    title = _("home_title")
+    header = _("home_header")
+    return render_template("3-index.html", title=title, header=header)
 
 
-# @babel.localeselector
+@babel.localeselector
 def get_locale():
     """get best language match
     Returns:
         str: best match
     """
-    locale = request.args.get('locale')
-    if locale in app.config['LANGUAGES']:
-        return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-# --- uncomment this line
-babel.init_app(app, locale_selector=get_locale)
-# --- and comment the @babel.localeselector decorator above if
-# you get this error:
-# AttributeError: 'Babel' object has no attribute 'localeselector'
-
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
