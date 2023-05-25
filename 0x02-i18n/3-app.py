@@ -5,25 +5,23 @@
 a simple flask app
 """
 from flask import Flask, render_template, request
-from flask_babel import Babel, _, gettext
+from flask_babel import Babel, _
 
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
-babel = Babel(app)
 
 
 class Config(object):
+    """Config class for flask app
     """
-    class used  to configure languages
-    """
+
     LANGUAGES = ['en', 'fr']
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
 app.config.from_object(Config)
+babel = Babel(app)
 
 
 @app.route('/')
@@ -36,16 +34,15 @@ def hello_world():
     return render_template("3-index.html", title=title, header=header)
 
 
-# @babel.localeselector
+@babel.localeselector
 def get_locale():
+    """get best language match
+    Returns:
+        str: best match
     """
-    get locale
-    """
-    locale = request.accept_languages.best_match(app.config['LANGUAGES'])
-    return locale
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-babel.init_app(app, locale_selector=get_locale)
 
 if __name__ == '__main__':
     app.run(debug=True)
