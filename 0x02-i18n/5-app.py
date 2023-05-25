@@ -58,6 +58,7 @@ def get_user():
 
 @app.before_request
 def before_request():
+    """runs before any other function"""
 
     g.user = get_user()
 
