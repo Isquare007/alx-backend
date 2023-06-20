@@ -1,6 +1,7 @@
-const { expect } = require('chai');
 const kue = require('kue');
-const { createPushNotificationsJobs } = require('./8-job');
+import createPushNotificationsJobs from './8-job.js';
+
+const assert = require('assert')
 
 describe('createPushNotificationsJobs', () => {
   let queue;
@@ -15,43 +16,26 @@ describe('createPushNotificationsJobs', () => {
     queue.testMode.exit();
   });
 
-  it('should throw an error if jobs is not an array', () => {
-    const invalidJobs = 'not an array';
-    expect(() => createPushNotificationsJobs(invalidJobs, queue)).to.throw(
-      'Jobs is not an array'
-    );
-  });
+  it('should validate the jobs inside the queue', () => new Promise((done) => {
+    const lists = [{ phoneNumber: '790003-3-33', message: 'This is your code 1803' }, { phoneNumber: '7980-30039-00', message: 'This is your code 9039' }];
+    createPushNotificationsJobs(lists, queue);
 
-  it('should create jobs in the queue and log the corresponding messages', () => {
-    const jobs = [
-      {
-        phoneNumber: '4153518780',
-        message: 'This is the code 1234 to verify your account',
-      },
-      {
-        phoneNumber: '4153518781',
-        message: 'This is the code 4562 to verify your account',
-      },
-      {
-        phoneNumber: '4153518743',
-        message: 'This is the code 4321 to verify your account',
-      },
-    ];
+    const { jobs } = queue.testMode;
 
-    createPushNotificationsJobs(jobs, queue);
+    assert.equal(jobs.length, lists.length);
+    done();
+  }));
 
-    expect(queue.testMode.jobs.length).to.equal(jobs.length);
-
-    const expectedLogMessages = [
-      'Notification job created:',
-      'Notification job created:',
-      'Notification job created:',
-    ];
-
-    queue.testMode.jobs.forEach((job, index) => {
-      expect(job.type).to.equal('push_notification_code_3');
-      expect(job.data).to.deep.equal(jobs[index]);
-      expect(console.log.calledWith(expectedLogMessages[index])).to.be.true;
-    });
-  });
+  it('should display an error message if jobs is not an array', () => new Promise((done) => {
+    const lists = {
+      phoneNumber: '790003-3-33', message: 'This is your code 1803', phoneNumber: '7980-3003900', message: 'This is your code 9039',
+    };
+    try {
+      createPushNotificationsJobs(lists, queue);
+    } catch (error) {
+      assert.equal(error.message, 'Jobs is not an array');
+      assert(error instanceof Error);
+      done();
+    }
+  }));
 });

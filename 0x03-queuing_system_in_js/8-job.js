@@ -1,5 +1,5 @@
 function createPushNotificationsJobs(jobs, queue) {
-  if (!Array.isArray(jobs)) {
+  if (!(jobs instanceof Array)) {
     throw new Error('Jobs is not an array');
   }
 
@@ -24,4 +24,5 @@ function createPushNotificationsJobs(jobs, queue) {
     job.save();
   });
 }
+
 module.exports = createPushNotificationsJobs;
